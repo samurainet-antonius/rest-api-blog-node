@@ -2,10 +2,13 @@ var http = require('http')
 var express = require('express')
 var body = require('body-parser')
 var koneksi = require('./config/database')
+var cors = require('cors')
 
 var app = express()
+app.use(cors())
 app.use(body.json())
 app.use(body.urlencoded({ extended: false}))
+
 
 // tampil data news
 app.get('/news', function(req,res) {
