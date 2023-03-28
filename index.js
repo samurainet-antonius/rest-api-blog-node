@@ -104,7 +104,23 @@ app.put('/news/update/:id', function(req, res){
     })
 })
 
-http://localhost:8000/news
+app.get('/news/dashboard', function(req, res){
+
+    var year = new Date().getFullYear();
+
+    var querySql = "SELECT COUNT(*) as total, MONTH(created_at) as month FROM news WHERE YEAR(created_at) = ? GROUP BY MONTH(created_at)"
+
+    koneksi.query(querySql, year, function(err, data, field) {
+        if(err) {
+            console.log(`err query sql ${err.message}`)
+            return res.status(500).json({success:false, message: 'Terjadi kesalahan pada server'})
+        }
+
+        return res.status(200).json({success:true, data:data})
+    })
+})
+
+// http://localhost:8000/news
 
 app.listen('8000', () =>{
     console.log(`Server running at port 8000`)
